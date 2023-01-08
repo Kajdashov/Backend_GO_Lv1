@@ -49,9 +49,11 @@ func broadcaster() {
 }
 
 func handleConn(conn net.Conn) {
+	got := make(conn.Read([]byte))
+	var nickName int = got
 	ch := make(chan string)
 	go clientWriter(conn, ch)
-	who := conn.Read(nickName []byte)
+	who := string(nickName)
 	ch <- "You are " + who
 	messages <- who + " has arrived"
 	entering <- ch
