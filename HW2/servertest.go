@@ -49,11 +49,11 @@ func broadcaster() {
 }
 
 func handleConn(conn net.Conn) {
-	got := make(conn.Read([]byte))
-	var nickName int = got
+	got := make([]byte, 256) //подготовили переменную, куда будем складывать полученные от клиента байты
+	conn.Read(got)
 	ch := make(chan string)
 	go clientWriter(conn, ch)
-	who := string(nickName)
+	who := string(got)
 	ch <- "You are " + who
 	messages <- who + " has arrived"
 	entering <- ch
@@ -69,4 +69,5 @@ func clientWriter(conn net.Conn, ch <-chan string) {
 	for msg := range ch {
 		fmt.Fprintln(conn, msg)
 	}
+
 }

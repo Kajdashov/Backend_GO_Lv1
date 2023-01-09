@@ -9,11 +9,8 @@ import (
 )
 
 func main() {
-
 	var nickName string
 	fmt.Println("Введи свой никнейм: ")
-	fmt.Scanf("%s\n", &nickName)
-
 	conn, err := net.Dial("tcp", "localhost:8000")
 	if err != nil {
 		log.Fatal(err)
@@ -25,6 +22,7 @@ func main() {
 	io.Copy(conn, os.Stdin) // until you send ^Z
 	fmt.Printf("%s: exit", conn.LocalAddr())
 
+	fmt.Scanf("%s\n", &nickName)
 	conn.Write([]byte(nickName))
 
 }
